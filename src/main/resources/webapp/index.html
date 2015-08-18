@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="libs/microtemplate/microtemplating.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<div id="show_files">Loading...</div>
+<div id="xx">
+    <ul class="flex-container">
+        <li class="bigitem flex-item2"> Upload your file</li>
+        <li class="flex-item2">
+            <input type="file" class=""  id="fileinput"/>
+        </li>
+    </ul>
+</div>
+
+<!-- webapp.js client side templating-->
+<script type="text/html" id="show_files_template">
+    <h3>List Of Files</h3>
+    <ul class="flex-container">
+        <% for ( var i = 0; i < files.length; i++ ) { %>
+        <li class="flex-item"><%= files[i].name %> : <%= files[i].picture %></li>
+        <% } %>
+    </ul>
+</script>
+
+<script>
+    loadFiles();
+
+    function loadFiles() {
+        var showFilesElem = $("#show_files");
+        $.ajax("http://localhost:4567/files")
+                .done(function (response) {
+                    showFilesElem.html(tmpl("show_files_template", {files: response}));
+                }).fail(function (jqXHR, textStatus) {
+                    showFilesElem.html("Error occurred");
+                    console.log("Request failed: " + textStatus);
+                });
+
+    }
+</script>
+
+
+</body>
+</html>
