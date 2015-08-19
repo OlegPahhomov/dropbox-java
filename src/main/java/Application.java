@@ -1,26 +1,21 @@
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import config.AppDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import spark.*;
+import spark.utils.IOUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.sql.SQLException;
 
 import static spark.SparkBase.staticFileLocation;
 
@@ -36,20 +31,18 @@ public class Application {
         //Spark.get("/", (request, response) -> "Greetings!", toJson);
 
         Spark.post("/add", (request, response) -> {
-            MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp");
-            request.raw().setAttribute("org.eclipse.multipartConfig", multipartConfigElement);
-            Part file = request.raw().getPart("file"); //file is name of the upload form
-            BufferedImage img = ImageIO.read(file.getInputStream());
+            setRequestMultiPartFile(request);
+
+            Part file = request.raw().getPart("file");
+            Part name = request.raw().getPart("name");
+            String nameStr = IOUtils.toString(name.getInputStream());
+
             try (Connection connection = AppDataSource.getTransactConnection();
                  PreparedStatement ps = connection.prepareStatement("INSERT INTO FILE(name, content, image_width, image_height) VALUES (?, ?, ?, ?)")) {
-                ps.setString(1, file.getName());
-                ps.setBinaryStream(2, file.getInputStream(), (int) file.getSize());
-                ps.setInt(3, img.getWidth());
-                ps.setInt(4, img.getHeight());
-                ps.executeUpdate();
+                fillPreparedStatement(ps, file, nameStr);
                 connection.commit();
             }
-
+            response.redirect("/");
             return "success";
         }, toJson);
 
@@ -79,5 +72,18 @@ public class Application {
             response.type("image/jpeg");
         });
 
+    }
+
+    private static void setRequestMultiPartFile(Request request) {
+        request.raw().setAttribute("org.eclipse.multipartConfig", new MultipartConfigElement("/tmp"));
+    }
+
+    private static void fillPreparedStatement(PreparedStatement ps, Part file, String name) throws IOException, SQLException {
+        BufferedImage img = ImageIO.read(file.getInputStream());
+        ps.setString(1, name);
+        ps.setBinaryStream(2, file.getInputStream(), (int) file.getSize());
+        ps.setInt(3, img.getWidth());
+        ps.setInt(4, img.getHeight());
+        ps.executeUpdate();
     }
 }
