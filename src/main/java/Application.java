@@ -46,6 +46,19 @@ public class Application {
             return "success";
         }, toJson);
 
+        Spark.post("/remove/:id", (request, response) -> {
+            try (Connection connection = AppDataSource.getTransactConnection();
+                 PreparedStatement ps = connection.prepareStatement("DELETE FROM FILE WHERE ID=?")) {
+                Integer id = Integer.valueOf(request.params(":id"));
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                connection.commit();
+            }
+            response.redirect("/");
+            return "success";
+
+        }, toJson);
+
         Spark.get("/files", (request, response) -> {
             try (Connection connection = AppDataSource.getConnection()) {
                 return queryRunner.query(connection, "SELECT *, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE", new MapListHandler());

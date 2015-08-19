@@ -14,12 +14,14 @@
 <body>
 <div id="content">
     <div id="show_files">Loading...</div>
+
     <form method="post" enctype="multipart/form-data"
           action="http://localhost:4567/add">
         <div class="heading"><h3>Upload new file</h3></div>
         <div class="upload-block">
             <div class="upload-block__item upload-block__item--big">
-                <input name="name" type="text" placeholder="Enter file name" class="upload-block__item--big" id="textinput"
+                <input name="name" type="text" placeholder="Enter file name" class="upload-block__item--big"
+                       id="textinput"
                        required/>
             </div>
             <div class="upload-block__item upload-block__item--big">
@@ -38,7 +40,11 @@
         <div class="file-container">
             <% for ( var i = 0; i < files.length; i++ ) { %>
             <div class="<%=getRatioClass(files[i]) %>">
-                <img src="http://localhost:4567/picture/<%= files[i].id %>">
+                <img title="<%=files[i].name %>" src="http://localhost:4567/picture/<%= files[i].id %>">
+
+                <form method="post" action="http://localhost:4567/remove/<%= files[i].id %>">
+                    <button type="submit" class="close" title="Delete file">&times;</button>
+                </form>
             </div>
             <% } %>
         </div>
@@ -69,7 +75,8 @@
                             {
                                 files: response,
                                 getRatioClass: function (image) {
-                                    return image.ratio > 1.5 ? 'file bigfile' : 'file';
+                                    var golden_ratio = 1.45;
+                                    return image.ratio > golden_ratio ? 'file bigfile' : 'file';
                                 }
                             }
                     ))
