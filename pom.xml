@@ -71,8 +71,7 @@
                 <configuration>
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432</url>
-                    <user>postgres</user>
-                    <password>postgres</password>
+                    <password>${postgres.password.home}</password>
                     <schemas>
                         <schema>public</schema>
                     </schemas>
@@ -84,6 +83,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <postgres.password.home>12345</postgres.password.home>
+        <postgres.password.office>postgres</postgres.password.office>
     </properties>
 
 

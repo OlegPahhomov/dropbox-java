@@ -2,39 +2,26 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Simple file uploader</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="libs/microtemplate/microtemplating.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/load-files.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/files.css">
+    <link rel="stylesheet" type="text/css" href="css/upload-form.css">
+
 </head>
 <body>
 <div id="content">
+
+    <!--List files-->
+    <!--List files-->
+    <!--List files-->
     <div id="show_files">Loading...</div>
-
-    <form method="post" enctype="multipart/form-data"
-          action="http://localhost:4567/add">
-        <div class="heading"><h3>Upload new file</h3></div>
-        <div class="upload-block">
-            <div class="upload-block__item upload-block__item--big">
-                <input name="name" type="text" placeholder="Enter file name" class="upload-block__item--big"
-                       id="textinput"
-                       required/>
-            </div>
-            <div class="upload-block__item upload-block__item--big">
-                <input name="file" type="file" class="inherit-width upload-item-input" id="fileinput"
-                       style="height:100%; width:100%" required/>
-            </div>
-            <div class="upload-block__item">
-                <input type="submit" class="inherit-width" value="Add file">
-            </div>
-        </div>
-    </form>
-
-    <!-- webapp.js client side templating-->
+    <script>fileLoader.load();</script>
     <script type="text/html" id="show_files_template">
         <div class="heading"><h3>List Of Files</h3></div>
         <div class="file-container">
@@ -51,43 +38,28 @@
     </script>
 
 
-    <!--<br>
-    <br>
-    <br>
-    <div class="heading">
-        found this from the web.
-        <div id="box">
-            <img id="image" src="http://guide.denverpost.com/media/photos/full/mountain_600x600.jpg" width="100%"
-                 height="100%"/>
-            <input type="file" id="file"/>
+    <!-- upload form-->
+    <!-- upload form-->
+    <!-- upload form-->
+    <form method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
+        <div class="heading">
+            <h3>Upload new file</h3>
         </div>
-    </div>-->
-
+        <div class="upload-block">
+            <div class="upload-block__item upload-block__item--big">
+                <input name="name" type="text" placeholder="Enter file name" class="upload-block__item--big"
+                       id="textinput"
+                       required/>
+            </div>
+            <div class="upload-block__item upload-block__item--big">
+                <input name="file" type="file" class="inherit-width upload-item-input" id="fileinput"
+                       style="height:100%; width:100%" required/>
+            </div>
+            <div class="upload-block__item">
+                <input type="submit" class="inherit-width" value="Add file">
+            </div>
+        </div>
+    </form>
 </div>
-<script>
-    loadFiles();
-
-    function loadFiles() {
-        var showFilesElem = $("#show_files");
-        $.ajax("http://localhost:4567/files")
-                .done(function (response) {
-                    showFilesElem.html(tmpl("show_files_template",
-                            {
-                                files: response,
-                                getRatioClass: function (image) {
-                                    var golden_ratio = 1.45;
-                                    return image.ratio > golden_ratio ? 'file bigfile' : 'file';
-                                }
-                            }
-                    ))
-                }).fail(function (jqXHR, textStatus) {
-                    showFilesElem.html("Error occurred");
-                    console.log("Request failed: " + textStatus);
-                });
-
-    }
-</script>
-
-
 </body>
 </html>
