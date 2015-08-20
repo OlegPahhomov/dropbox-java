@@ -11,13 +11,18 @@
     <script src="libs/mousewheel/jquery.mousewheel-3.0.6.pack.js"></script>
     <script src="libs/microtemplate/microtemplating.js"></script>
 
+    <script src="libs/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="libs/jquery-validation-1.14.0/dist/additional-methods.min.js"></script>
+
     <link rel="stylesheet" href="libs/fancybox/source/jquery.fancybox.css">
     <script src="libs/fancybox/source/jquery.fancybox.pack.js"></script>
 
-    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css"
+          media="screen"/>
     <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-buttons.js"></script>
     <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-media.js"></script>
-    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css"
+          media="screen"/>
     <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script>
 
 
@@ -25,6 +30,26 @@
     <script src="js/load-files.js"></script>
     <link rel="stylesheet" type="text/css" href="css/files.css">
     <link rel="stylesheet" type="text/css" href="css/upload-form.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.fancybox').fancybox();
+        });
+    </script>
+    <script type="text/javascript">
+        $(function ($) {
+            $('#fileForm').validate({
+                rules: {},
+                messages: {},
+                submitHandler: function () {
+                    return false
+                }
+            });
+            $('input[name^="file"]').rules('add', {
+                required: true,
+                accept: "image/jpeg, image/jpg"
+            })
+        })
+    </script>
 </head>
 <body>
 <div id="content">
@@ -49,6 +74,7 @@
 
                     <img title="<%=files[i].name %>" src="http://localhost:4567/picture/<%= files[i].id %>" alt>
                 </a>
+
                 <div class="file-fullscreen" id="<%= 'show_popup_link_' + files[i].id %>" style="display: none;">
                     <img src="http://localhost:4567/picture/<%= files[i].id %>">
                 </div>
@@ -61,18 +87,12 @@
             <% } %>
         </div>
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
 
-            $('.fancybox').fancybox();
-
-        });
-    </script>
 
     <!-- upload form-->
     <!-- upload form-->
     <!-- upload form-->
-    <form method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
+    <form id="fileForm" method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
         <div class="heading">
             <h3>Upload new file</h3>
         </div>
@@ -80,10 +100,12 @@
             <div class="upload-block__item upload-block__item--big">
                 <input name="name" type="text" placeholder="Enter file name" class="upload-block__item--big"
                        id="textinput"
-                       required/>
+                       accept="image/*"
+                       required
+                       multiple/>
             </div>
             <div class="upload-block__item upload-block__item--big">
-                <input name="file" type="file" class="inherit-width upload-item-input" id="fileinput"
+                <input id="file" name="file" type="file" class="inherit-width upload-item-input"
                        style="height:100%; width:100%" required/>
             </div>
             <div class="upload-block__item">
