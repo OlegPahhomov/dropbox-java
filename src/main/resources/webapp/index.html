@@ -28,6 +28,7 @@
 
     <!-- my stuff -->
     <script src="js/load-files.js"></script>
+    <script src="js/serverConfig.js"></script>
     <link rel="stylesheet" type="text/css" href="css/files.css">
     <link rel="stylesheet" type="text/css" href="css/upload-form.css">
     <script type="text/javascript">
@@ -53,6 +54,12 @@
             })
         })
     </script>
+    <!--<script>
+        $('#fileForm').on('submit', function () {
+            var formAction = $('#fileForm').attr('action');
+            $('#fileForm').attr('action', serverConfig.url(formAction));
+        });
+    </script>-->
 </head>
 <body>
 <div id="content">
@@ -108,7 +115,7 @@
                        multiple
                        accept="image/*"
                        required
-                       style="height:100%; width:100%" />
+                       style="height:100%; width:100%"/>
             </div>
             <div class="upload-block__item">
                 <input type="submit" class="inherit-width" value="Add file">
