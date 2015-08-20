@@ -15,7 +15,6 @@ public class AppDataSource {
         dataSource = new PGPoolingDataSource();
         dataSource.setDatabaseName("postgres");
         dataSource.setUser("postgres");
-        dataSource.setPassword(OFFICE_PW);
         dataSource.setPassword(HOME_PW);
         dataSource.setServerName("localhost");
     }
