@@ -6,6 +6,8 @@ import spark.*;
 
 import javax.servlet.MultipartConfigElement;
 
+import static spark.Spark.before;
+import static spark.Spark.halt;
 import static spark.Spark.post;
 import static spark.SparkBase.staticFileLocation;
 
@@ -17,11 +19,14 @@ public class Application {
     public static void main(String[] args) {
         staticFileLocation("webapp"); // it maps index.html to "/"
 
+        before("/hidden", (request, response) -> halt(401, "You are not welcome to the secret page"));
+        before("/hidden.html", (request, response) -> halt(401, "You are not welcome to the secret page"));
+
         post("/add", (request, response) -> {
             setRequestMultiPartFile(request);
             if (FileValidator.invalidInsert(request)) {
                 response.redirect(ERROR_PAGE);
-                return "error";
+                halt();
             }
             FileService.saveFilesToDb(request);
             response.redirect("/");
@@ -31,7 +36,7 @@ public class Application {
         post("/remove/:id", (request, response) -> {
             if (FileValidator.invalidDelete(request)) {
                 response.redirect(ERROR_PAGE);
-                return "error";
+                halt();
             }
             FileService.deleteFileFromDb(request);
             response.redirect("/");
@@ -43,7 +48,7 @@ public class Application {
         Spark.get("/picture/:id", (request, response) -> {
             if (FileValidator.invalidGetById(request)){
                 response.redirect(ERROR_PAGE);
-                return "error";
+                halt();
             }
             response.type("image/jpeg");
             return FileReader.getPicture(request);
