@@ -16,6 +16,6 @@ spark runs on http://localhost:4567/
 
 More detail
 
-############### Backend: java8 - sparkjava - flyway - postgres
+Backend: java8 - sparkjava - flyway - postgres
 
-############### Frontend: html - js/jQuery - microtemplate.js - fancybox
+Frontend: html - js/jQuery - microtemplate.js - fancybox
