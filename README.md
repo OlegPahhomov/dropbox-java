@@ -14,8 +14,17 @@ To run:
 spark runs on http://localhost:4567/
 
 
-More detail
 
-Backend: java8 - sparkjava - flyway - postgres
+####### In more detail
 
-Frontend: html - js/jQuery - microtemplate.js - fancybox
+Backend: java8 - sparkjava - flyway - postgres - apache db utils
+
+Frontend: html - js/jQuery - css - microtemplate.js - fancybox - jquery validation
+
+
+Known issues.
+
+* Project can be run as 2 separate projects, but it has issues:
+It will always redirect to default serverside url, which can be changed in serverConfig.js
+Upload form has server_link hardcoded
+* Front-side validation doesn't work: it submits always.

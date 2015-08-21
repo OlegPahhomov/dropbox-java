@@ -57,7 +57,7 @@
     <!--<script>
         $('#fileForm').on('submit', function () {
             var formAction = $('#fileForm').attr('action');
-            $('#fileForm').attr('action', serverConfig.url(formAction));
+            $('#fileForm').attr('action', fileHandler.url(formAction));
         });
     </script>-->
 </head>
@@ -85,7 +85,7 @@
                 </a >
 
                 <div class="file-fullscreen" id="<%= 'show_popup_link_' + files[i].id %>" style="display: none;">
-                    <img src="http://localhost:4567/picture/<%= files[i].id %>">
+                    <img src="<%= serverConfig.url('picture/' + files[i].id) %>">
                 </div >
 
                 <form method="post" action="http://localhost:4567/remove/<%= files[i].id %>">

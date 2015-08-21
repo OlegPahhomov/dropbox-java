@@ -1,10 +1,22 @@
 var serverConfig = {
+
+    SERVER: function(){
+        return this.SPARK();
+    },
+
+    url: function (url) {
+        return  serverConfig.SERVER() + url
+    },
+
+
+
+
+
+
     LOCALHOST: "http://localhost:",
     SPARK_PORT: "4567/",
-    SPARK: fileHandler.LOCALHOST + fileHandler.SPARK_PORT,
-    SERVER: fileHandler.SPARK,
 
-    url : function(url){
-        return fileHandler.SERVER + url;
+    SPARK: function () {
+        return (this.LOCALHOST + this.SPARK_PORT)
     }
 }
