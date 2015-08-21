@@ -60,9 +60,7 @@ public class Application {
             response.type("application/json");
         });
 
-        Spark.after("/picture/:id", (request, response) -> {
-            response.type("image/jpeg");
-        });
+        Spark.after("/picture/:id", (request, response) -> response.type("image/jpeg"));
 
     }
 
