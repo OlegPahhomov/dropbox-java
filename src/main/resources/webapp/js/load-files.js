@@ -1,6 +1,6 @@
-var fileLoader = {
+var fileHandler = {
 
-    load: function loadFiles() {
+    loadPictures: function loadFiles() {
         var showFilesElem = $("#show_files");
         $.ajax("http://localhost:4567/files")
             .done(function (response) {
@@ -17,6 +17,5 @@ var fileLoader = {
                 showFilesElem.html("Error occurred");
                 console.log("Request failed: " + textStatus);
             });
-
     }
 }

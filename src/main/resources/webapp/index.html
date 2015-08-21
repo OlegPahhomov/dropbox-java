@@ -69,13 +69,12 @@
     <!--List files-->
     <!--List files-->
     <div id="show_files">Loading...</div>
-    <script>fileLoader.load();</script>
+    <script>fileHandler.loadPictures();</script>
     <script type="text/html" id="show_files_template">
         <div class="heading"><h3>List Of Files</h3></div>
         <div class="file-container">
             <% for ( var i = 0; i < files.length; i++ ) { %>
-
-            <div class="<%=getRatioClass(files[i]) %>">
+            <div class="<%=getRatioClass(files[i]) %>" >
 
                 <a class="fancybox"
                    href="<%= '#show_popup_link_' + files[i].id %>"
@@ -83,11 +82,11 @@
                    title="<%=files[i].name %>">
 
                     <img title="<%=files[i].name %>" src="http://localhost:4567/picture/<%= files[i].id %>">
-                </a>
+                </a >
 
                 <div class="file-fullscreen" id="<%= 'show_popup_link_' + files[i].id %>" style="display: none;">
                     <img src="http://localhost:4567/picture/<%= files[i].id %>">
-                </div>
+                </div >
 
                 <form method="post" action="http://localhost:4567/remove/<%= files[i].id %>">
                     <button type="submit" class="close" title="Delete file">&times;</button>
