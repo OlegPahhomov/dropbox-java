@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import files.FileValidator;
-import org.apache.commons.dbutils.QueryRunner;
+import files.FileReader;
+import files.validator.FileValidator;
 import files.FileService;
 import spark.*;
 
@@ -12,6 +11,7 @@ import static spark.SparkBase.staticFileLocation;
 
 public class Application {
 
+    public static final String ERROR_PAGE = "/error.html";
     static ResponseTransformer toJson = new Gson()::toJson;
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class Application {
         post("/add", (request, response) -> {
             setRequestMultiPartFile(request);
             if (FileValidator.invalidInsert(request)) {
-                response.redirect("/error");
+                response.redirect(ERROR_PAGE);
                 return "error";
             }
             FileService.saveFilesToDb(request);
@@ -30,7 +30,7 @@ public class Application {
 
         post("/remove/:id", (request, response) -> {
             if (FileValidator.invalidDelete(request)) {
-                response.redirect("/error");
+                response.redirect(ERROR_PAGE);
                 return "error";
             }
             FileService.deleteFileFromDb(request);
@@ -38,13 +38,15 @@ public class Application {
             return "success";
         }, toJson);
 
-        Spark.get("/files", (request, response) -> {
-            return FileService.getPictures();
-        }, toJson);
+        Spark.get("/files", (request, response) -> FileReader.getPictures(), toJson);
 
         Spark.get("/picture/:id", (request, response) -> {
+            if (FileValidator.invalidGetById(request)){
+                response.redirect(ERROR_PAGE);
+                return "error";
+            }
             response.type("image/jpeg");
-            return FileService.getPicture(request);
+            return FileReader.getPicture(request);
         });
 
         Spark.after((request, response) -> {
@@ -54,7 +56,6 @@ public class Application {
         });
 
         Spark.after("/picture/:id", (request, response) -> {
-            // For security reasons do not forget to change "*" to url
             response.type("image/jpeg");
         });
 

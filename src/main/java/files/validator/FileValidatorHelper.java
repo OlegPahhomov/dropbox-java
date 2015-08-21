@@ -1,29 +1,33 @@
-package files;
+package files.validator;
 
+import files.FileUtil;
 import spark.Request;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
-import java.util.List;
 
-public class FileValidator {
+public class FileValidatorHelper {
 
-    public static boolean invalidInsert(Request request) {
-        return !validInsert(request);
+    public static boolean containsParts(Request request){
+        try {
+            if(FileUtil.getParts(request).isEmpty()) return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
-    public static boolean invalidDelete(Request request) {
-        return !validDelete(request);
+    public static boolean validContent(Request request){
+        return onlyImages(request);
     }
 
     /**
      * If we can get an image for each part and it's not a null (.getXxx succeeds)
      */
-    private static boolean validInsert(Request request) {
+    private static boolean onlyImages(Request request) {
         try {
-            List<Part> parts = FileService.getParts(request);
-            for (Part part : parts) {
+            for (Part part : FileUtil.getParts(request)) {
                 BufferedImage img = ImageIO.read(part.getInputStream());
                 img.getWidth();
             }
@@ -36,7 +40,7 @@ public class FileValidator {
     /**
      * If we can get id out, and it's a number, it is correct
      */
-    private static boolean validDelete(Request request) {
+    public static boolean validId(Request request) {
         try {
             Integer id = Integer.valueOf(request.params(":id"));
             return true;

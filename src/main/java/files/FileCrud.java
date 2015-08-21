@@ -13,21 +13,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * CRUD* without R (Read)
+ * Create, read, update, delete
+ */
 public class FileCrud {
 
-    static QueryRunner queryRunner = new QueryRunner();
-
-    public static Object getPictures() throws SQLException {
-        try (Connection connection = AppDataSource.getConnection()) {
-            return queryRunner.query(connection, "SELECT *, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE", new MapListHandler());
-        }
-    }
-
-    public static Object getPicture(Long id) throws SQLException {
-        try (Connection connection = AppDataSource.getConnection()) {
-            return queryRunner.query(connection, "SELECT content FROM FILE WHERE ID=?", new ScalarHandler<>(), id);
-        }
-    }
 
     public static void saveOneFile(Part file) throws SQLException, IOException {
         try (Connection connection = AppDataSource.getTransactConnection();
