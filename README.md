@@ -9,9 +9,8 @@ To run:
 * 1) You need Postgres database (or reconfig more in point 2)
 * 2) change Appconfig.java and pom.xml database password (default postgres config)
 * 3) run mvn flyway:migrate
-* 4) start main in Application.java
-
-spark runs on http://localhost:4567/
+* 4) start main in Application.java, spark runs on http://localhost:4567/
+* 5) if you're not running spark or default port, change serverConfig.js and (I know it sucks) index.html upload form action url
 
 
 
@@ -24,7 +23,9 @@ Frontend: html - js/jQuery - css - microtemplate.js - fancybox - jquery validati
 
 Known issues.
 
-* Project can be run as 2 separate projects, but it has issues:
-It will always redirect to default serverside url, which can be changed in serverConfig.js
-Upload form has server_link hardcoded
+* Cannot separate into 2 projects. (Front and back end)
+It can be run as 2 separate projects, but it has issues:
+It will always redirect to default serverside url.
 * Front-side validation doesn't work: it submits always.
+* Index.html is fat and ugly
+
