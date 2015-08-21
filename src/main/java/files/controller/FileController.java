@@ -16,7 +16,7 @@ import static spark.Spark.halt;
 public class FileController {
     public static final String ERROR_PAGE = "/error.html";
 
-    public static String AddFile(Request request, Response response) throws IOException, ServletException, SQLException {
+    public static String addFile(Request request, Response response) throws IOException, ServletException, SQLException {
         setRequestMultiPartFile(request);
         if (FileValidator.invalidInsert(request)) {
             response.redirect(ERROR_PAGE);

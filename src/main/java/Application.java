@@ -15,7 +15,7 @@ public class Application {
         before("/hidden", (request, response) -> halt(401, "You are not welcome to the secret page"));
         before("/hidden.html", (request, response) -> halt(401, "You are not welcome to the secret page"));
 
-        post("/add", FileController::AddFile);
+        post("/add", FileController::addFile);
         post("/remove/:id", FileController::deleteFile);
 
         get("/files", FileController::getPictures, toJson);
