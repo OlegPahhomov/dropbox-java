@@ -1,6 +1,6 @@
 package files.validator;
 
-import files.FileUtil;
+import files.util.FileUtil;
 import spark.Request;
 
 import javax.imageio.ImageIO;
