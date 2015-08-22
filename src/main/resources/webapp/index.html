@@ -26,15 +26,14 @@
     <div id = "header"></div>
 
 
-    <!--List files-->
-    <!--List files-->
-    <!--List files-->
     <div id="show_files">Loading...</div>
 
     <!-- load config file and load get pictures from handler-->
     <script src="js/serverConfig.js"></script>
     <script src="js/load-files.js"></script>
     <script>fileHandler.loadPictures();</script>
+
+    <!-- fancybox block, can't extract easily -->
     <script type="text/html" id="show_files_template">
         <div class="heading"><h3>List Of Files</h3></div>
         <div class="file-container">
@@ -63,9 +62,6 @@
     </script>
 
 
-    <!-- upload form-->
-    <!-- upload form-->
-    <!-- upload form-->
     <div id="file-form-div">
         <script>
             $.get('html/upload-form.html', function(data){
@@ -73,13 +69,6 @@
             });
         </script>
     </div>
-
-
-
-
-
 </div>
-
-
 </body>
 </html>

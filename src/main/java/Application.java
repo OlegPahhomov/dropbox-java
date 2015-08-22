@@ -12,9 +12,6 @@ public class Application {
     public static void main(String[] args) {
         staticFileLocation("webapp"); // it maps index.html to "/"
 
-        before("/hidden", (request, response) -> halt(401, "You are not welcome to the secret page"));
-        before("/hidden.html", (request, response) -> halt(401, "You are not welcome to the secret page"));
-
         post("/add", FileController::addFile);
         post("/remove/:id", FileController::deleteFile);
 
