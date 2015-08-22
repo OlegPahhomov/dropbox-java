@@ -1,14 +1,12 @@
 package files.crud;
 
 import config.AppDataSource;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapListHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
+import files.util.FileResizer;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,10 +35,22 @@ public class FileCrud {
         }
     }
 
-    private static void fillInsertPS(PreparedStatement ps, Part file) throws IOException, SQLException {
-        ps.setString(1, getFileName(file));
-        ps.setBinaryStream(2, file.getInputStream(), (int) file.getSize());
-        BufferedImage img = ImageIO.read(file.getInputStream());
+    private static void fillInsertPS(PreparedStatement ps, Part part) throws IOException, SQLException {
+        BufferedImage img = ImageIO.read(part.getInputStream());
+        String fileName = getFileName(part);
+
+        if (FileResizer.needsResize(img)) {
+            BufferedImage resizedImage = FileResizer.dynamicResize(img);
+            ByteArrayOutputStream os = FileResizer.getByteArrayOutputStream(resizedImage);
+            fillPsAndExecute(ps, fileName, resizedImage, new ByteArrayInputStream(os.toByteArray()), os.size());
+        } else {
+            fillPsAndExecute(ps, fileName, img, part.getInputStream(), (int) part.getSize());
+        }
+    }
+
+    private static void fillPsAndExecute(PreparedStatement ps, String fileName, BufferedImage img, InputStream inputStream, int size) throws SQLException {
+        ps.setString(1, fileName);
+        ps.setBinaryStream(2, inputStream, size);
         ps.setInt(3, img.getWidth());
         ps.setInt(4, img.getHeight());
         ps.executeUpdate();
