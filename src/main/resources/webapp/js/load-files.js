@@ -8,8 +8,8 @@ var fileHandler = {
                     {
                         files: response,
                         getRatioClass: function (image) {
-                            var golden_ratio = 1.45;
-                            return image.ratio > golden_ratio ? 'file bigfile' : 'file';
+                            var experimental_ratio = 1.45;
+                            return image.ratio > experimental_ratio ? 'file bigfile' : 'file';
                         }
                     }
                 ))
