@@ -10,6 +10,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.stream.Stream;
 
 /**
  * CRUD* without R (Read)
@@ -18,10 +19,13 @@ import java.sql.SQLException;
 public class FileCrud {
 
 
+    public static final String UNKNOWN = "unknown";
+    public static final String FILENAME = "filename";
+
     public static void saveOneFile(Part file) throws SQLException, IOException {
         try (Connection connection = AppDataSource.getTransactConnection();
              PreparedStatement ps = connection.prepareStatement("INSERT INTO FILE(name, content, image_width, image_height) VALUES (?, ?, ?, ?)")) {
-            fillInsertPS(ps, file);
+            resizePictureIfNeededAndFillPS(ps, file);
             connection.commit();
         }
     }
@@ -35,10 +39,9 @@ public class FileCrud {
         }
     }
 
-    private static void fillInsertPS(PreparedStatement ps, Part part) throws IOException, SQLException {
+    private static void resizePictureIfNeededAndFillPS(PreparedStatement ps, Part part) throws IOException, SQLException {
         BufferedImage img = ImageIO.read(part.getInputStream());
         String fileName = getFileName(part);
-
         if (FileResizer.needsResize(img)) {
             BufferedImage resizedImage = FileResizer.dynamicResize(img);
             ByteArrayOutputStream os = FileResizer.getByteArrayOutputStream(resizedImage);
@@ -57,15 +60,25 @@ public class FileCrud {
     }
 
     /**
-     * hack from the web
+     * hack from the web, rewritten to java8
      */
-    static private String getFileName(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                return cd.substring(cd.indexOf('=') + 1).trim()
-                        .replace("\"", "");
-            }
-        }
-        return "unknown";
+    private static String getFileName(Part part) {
+        String[] split = part.getHeader("content-disposition").split(";");
+        return Stream.of(split)
+                .filter(cd -> cd.trim().startsWith(FILENAME))
+                .map(FileCrud::getFileName)
+                .findFirst()
+                .orElse(UNKNOWN);
+    }
+
+    /**
+     * Raw is "filename="Mypic.jpg""
+     * We need to return: Mypic.jpg
+     */
+    private static String getFileName(String rawHeader) {
+        return rawHeader
+                .substring(rawHeader.indexOf('=') + 1)
+                .trim()
+                .replace("\"", "");
     }
 }
