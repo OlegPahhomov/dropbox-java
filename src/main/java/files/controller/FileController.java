@@ -32,8 +32,6 @@ public class FileController {
             halt();
         }
         FileService.deleteFileFromDb(request);
-        //todo remove
-        response.redirect("/");
         return "success";
     }
 

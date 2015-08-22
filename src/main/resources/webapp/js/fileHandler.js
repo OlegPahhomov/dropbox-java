@@ -18,18 +18,32 @@ var fileHandler = {
                 console.log("Request failed: " + textStatus);
             });
     },
-    deletePicture: function deletePicture(){
-        //atm doesnt work, works in console, though
-        console.log($("[id^=delete_file_]").length);
+    deletePicture: function deletePicture() {
+        $.each($("form[id^=delete_file_]"), function (i, item) {
+            var deleteBox = $(item);
+            var deleteId = deleteBox[0].id.split("_").pop();
+            deleteBox.submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: serverConfig.url('remove/' + deleteId),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST'
+                }).done(function () {
+                    location.reload();
+                }).fail(function (jqXHR, textStatus) {
+                    alert("Error occurred");
+                    console.log("Request failed: " + textStatus);
+                })
+            })
+        })
     },
-
     savePictures: function saveFiles() {
         var addPictureFormElem = $('#fileForm');
         addPictureFormElem.submit(function (e) {
             e.preventDefault();
             var data = new FormData($(this)[0]);
-
-            console.log("got here");
             $.ajax({
                 url: serverConfig.url('add'),
                 data: data,

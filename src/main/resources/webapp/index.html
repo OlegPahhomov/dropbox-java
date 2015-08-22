@@ -52,7 +52,7 @@
                     <img src="<%= serverConfig.url('picture/' + files[i].id) %>">
                 </div >
 
-                <form id="<%= 'delete_file_' + files[i].id %>" method="post" action="<%= serverConfig.url('remove/' + files[i].id) %>">
+                <form id="<%= 'delete_file_' + files[i].id %>">
                     <button type="submit" class="close" title="Delete file">&times;</button>
                 </form>
             </div>
@@ -61,7 +61,7 @@
         </div>
     </script>
     <script>
-        $(document).ready(function ($) {
+        $(window).load(function () {
             fileHandler.deletePicture();
         })
     </script>
