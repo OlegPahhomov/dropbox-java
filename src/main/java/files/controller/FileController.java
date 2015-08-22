@@ -23,7 +23,6 @@ public class FileController {
             halt();
         }
         FileService.saveFilesToDb(request);
-        response.redirect("/");
         return "success";
     }
 
@@ -33,6 +32,7 @@ public class FileController {
             halt();
         }
         FileService.deleteFileFromDb(request);
+        //todo remove
         response.redirect("/");
         return "success";
     }

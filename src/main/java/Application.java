@@ -12,8 +12,8 @@ public class Application {
     public static void main(String[] args) {
         staticFileLocation("webapp"); // it maps index.html to "/"
 
-        post("/add", FileController::addFile);
-        post("/remove/:id", FileController::deleteFile);
+        post("/add", FileController::addFile, toJson);
+        post("/remove/:id", FileController::deleteFile, toJson);
 
         get("/files", FileController::getPictures, toJson);
         get("/picture/:id", FileController::getPicture);

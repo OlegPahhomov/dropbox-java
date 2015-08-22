@@ -30,7 +30,7 @@
 
     <!-- load config file and load get pictures from handler-->
     <script src="js/serverConfig.js"></script>
-    <script src="js/load-files.js"></script>
+    <script src="js/fileHandler.js"></script>
     <script>fileHandler.loadPictures();</script>
 
     <!-- fancybox block, can't extract easily -->
@@ -45,14 +45,14 @@
                    rel="pictures"
                    title="<%=files[i].name %>">
 
-                    <img title="<%=files[i].name %>" src="http://localhost:4567/picture/<%= files[i].id %>">
+                    <img title="<%=files[i].name %>" src="<%= serverConfig.url('picture/' + files[i].id) %>">
                 </a >
 
                 <div class="file-fullscreen" id="<%= 'show_popup_link_' + files[i].id %>" style="display: none;">
                     <img src="<%= serverConfig.url('picture/' + files[i].id) %>">
                 </div >
 
-                <form method="post" action="http://localhost:4567/remove/<%= files[i].id %>">
+                <form id="<%= 'delete_file_' + files[i].id %>" method="post" action="<%= serverConfig.url('remove/' + files[i].id) %>">
                     <button type="submit" class="close" title="Delete file">&times;</button>
                 </form>
             </div>
@@ -60,7 +60,11 @@
             <% } %>
         </div>
     </script>
-
+    <script>
+        $(document).ready(function ($) {
+            fileHandler.deletePicture();
+        })
+    </script>
 
     <div id="file-form-div">
         <script>

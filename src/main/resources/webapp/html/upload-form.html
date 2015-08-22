@@ -1,4 +1,4 @@
-<form id="fileForm" method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
+<form id="fileForm">
     <div class="heading">
         <h3>Upload new files</h3>
     </div>
@@ -20,6 +20,10 @@
 </form>
 
 <script type="text/javascript">
+    fileHandler.savePictures();
+</script>
+
+<script type="text/javascript">
     $(document).ready(function ($) {
         $('#fileForm').validate({
             rules: {
@@ -34,6 +38,6 @@
                     accept: "jpg and jpeg files only"
                 }
             }
-        });
+    });
     })
 </script>

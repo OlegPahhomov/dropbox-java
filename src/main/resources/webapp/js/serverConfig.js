@@ -1,22 +1,27 @@
 var serverConfig = {
 
-    SERVER: function(){
+    //reconfig this to return base server
+    SERVER: function () {
         return this.SPARK();
     },
 
     url: function (url) {
-        return  serverConfig.SERVER() + url
+        return serverConfig.SERVER() + url
     },
 
-
-
-
-
-
+    //define here elements
     LOCALHOST: "http://localhost:",
+    XXX_SERVER: "some-external-url",
     SPARK_PORT: "4567/",
-
+    JETTY_PORT: "8080/",
+    SPRING_BOOT_PORT: "8080/",
     SPARK: function () {
         return (this.LOCALHOST + this.SPARK_PORT)
+    },
+    JETTY: function () {
+        return (this.LOCALHOST + this.JETTY_PORT)
+    },
+    SPRING_BOOT: function () {
+        return (this.LOCALHOST + this.SPRING_BOOT_PORT)
     }
 }
