@@ -26,6 +26,6 @@ Known issues.
 * Cannot separate into 2 projects. (Front and back end)
 It can be run as 2 separate projects, but it has issues:
 It will always redirect to default serverside url.
-* Front-side validation doesn't work: it submits always.
+
 * Index.html is fat and ugly
 
