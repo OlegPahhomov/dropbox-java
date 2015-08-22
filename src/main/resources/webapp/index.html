@@ -3,72 +3,37 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Simple file uploader</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
+
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="libs/mousewheel/jquery.mousewheel-3.0.6.pack.js"></script>
-    <script src="libs/microtemplate/microtemplating.js"></script>
-
-    <script src="libs/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="libs/jquery-validation/dist/additional-methods.min.js"></script>
-
+    <!-- fancybox -->
     <link rel="stylesheet" href="libs/fancybox/source/jquery.fancybox.css">
     <script src="libs/fancybox/source/jquery.fancybox.pack.js"></script>
 
-    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css"
-          media="screen"/>
-    <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-buttons.js"></script>
-    <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-media.js"></script>
-    <link rel="stylesheet" href="libs/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css"
-          media="screen"/>
-    <script type="text/javascript" src="libs/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script>
-
-
-    <!-- my stuff -->
-    <script src="js/load-files.js"></script>
-    <script src="js/serverConfig.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/files.css">
-    <link rel="stylesheet" type="text/css" href="css/upload-form.css">
+    <script>
+        $.get('header.html', function(data){
+            $('#header').html(data);
+        });
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.fancybox').fancybox();
         });
     </script>
-    <script type="text/javascript">
-        $(document).ready(function ($) {
-            $('#fileForm').validate({
-                rules: {},
-                messages: {},
-                submitHandler: function () {
-                    return false
-                }
-            });
-            $('input[name^="file"]').rules('add', {
-                required: true,
-                accept: "image/jpeg, image/jpg",
-                submitHandler: function (form) {
-                    form.submit();
-                }
-            })
-        })
-    </script>
-    <!--<script>
-        $('#fileForm').on('submit', function () {
-            var formAction = $('#fileForm').attr('action');
-            $('#fileForm').attr('action', fileHandler.url(formAction));
-        });
-    </script>-->
 </head>
 <body>
 <div id="content">
+    <div id = "header"></div>
 
 
     <!--List files-->
     <!--List files-->
     <!--List files-->
     <div id="show_files">Loading...</div>
+
+    <!-- load config file and load get pictures from handler-->
+    <script src="js/serverConfig.js"></script>
+    <script src="js/load-files.js"></script>
     <script>fileHandler.loadPictures();</script>
     <script type="text/html" id="show_files_template">
         <div class="heading"><h3>List Of Files</h3></div>
@@ -122,15 +87,27 @@
         </div>
     </form>
 
-    <div id="hidden">
 
-    </div>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $('#fileForm').validate({
+                rules: {},
+                messages: {},
+                submitHandler: function () {
+                    return false
+                }
+            });
+            $('input[name^="file"]').rules('add', {
+                required: true,
+                accept: "image/jpeg, image/jpg",
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            })
+        })
+    </script>
 
-    <!--<script>
-        $.get('hidden.html', function(data){
-            $('#hidden').html(data);
-        });
-    </script>-->
+
 </div>
 
 

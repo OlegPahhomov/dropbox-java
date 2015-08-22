@@ -72,8 +72,8 @@
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432</url>
                     <user>postgres</user>
-                    <!--<password>${postgres.password.home}</password>-->
-                    <password>${postgres.password.office}</password>
+                    <password>${postgres.password.home}</password>
+                    <!--<password>${postgres.password.office}</password>-->
                     <schemas>
                         <schema>public</schema>
                     </schemas>
