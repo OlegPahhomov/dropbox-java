@@ -66,46 +66,16 @@
     <!-- upload form-->
     <!-- upload form-->
     <!-- upload form-->
-    <form id="fileForm" method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
-        <div class="heading">
-            <h3>Upload new files</h3>
-        </div>
-        <div class="upload-block">
-            <div class="upload-block__item upload-block__item--big">
-                <input id="file"
-                       name="file"
-                       type="file"
-                       class="inherit-width upload-item-input"
-                       multiple
-                       accept="image/*"
-                       required
-                       style="height:100%; width:100%"/>
-            </div>
-            <div class="upload-block__item">
-                <input type="submit" class="inherit-width" value="Add file">
-            </div>
-        </div>
-    </form>
-
-
-    <script type="text/javascript">
-        $(document).ready(function ($) {
-            $('#fileForm').validate({
-                rules: {},
-                messages: {},
-                submitHandler: function () {
-                    return false
-                }
+    <div id="file-form-div">
+        <script>
+            $.get('html/upload-form.html', function(data){
+                $('#file-form-div').html(data);
             });
-            $('input[name^="file"]').rules('add', {
-                required: true,
-                accept: "image/jpeg, image/jpg",
-                submitHandler: function (form) {
-                    form.submit();
-                }
-            })
-        })
-    </script>
+        </script>
+    </div>
+
+
+
 
 
 </div>

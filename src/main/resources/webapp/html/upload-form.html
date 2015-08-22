@@ -1,0 +1,40 @@
+<form id="fileForm" method="post" enctype="multipart/form-data" action="http://localhost:4567/add">
+    <div class="heading">
+        <h3>Upload new files</h3>
+    </div>
+    <div class="upload-block">
+        <div class="upload-block__item upload-block__item--big">
+            <input id="file"
+                   name="file"
+                   type="file"
+                   class="inherit-width upload-item-input"
+                   multiple
+                   accept="image/*"
+                   required
+                   style="height:100%; width:100%"/>
+        </div>
+        <div class="upload-block__item">
+            <input type="submit" class="inherit-width" value="Add file">
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function ($) {
+        console.log("validation reached")
+        $('#fileForm').validate({
+            rules: {
+                file: {
+                    required: true,
+                    accept: "image/jpeg, image/jpg"
+                }
+            },
+            messages: {
+                file: {
+                    required: "add some pictures :)",
+                    accept: "jpg and jpeg files only"
+                }
+            }
+        });
+    })
+</script>

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import static spark.Spark.halt;
 
 public class FileController {
-    public static final String ERROR_PAGE = "/error.html";
+    public static final String ERROR_PAGE = "../html/error.html";
 
     public static String addFile(Request request, Response response) throws IOException, ServletException, SQLException {
         setRequestMultiPartFile(request);
