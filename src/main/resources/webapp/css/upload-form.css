@@ -19,6 +19,12 @@
     flex-basis: auto;
 }
 
+.upload-block__note {
+    text-align: start;
+    font-style: italic;
+    font-weight: normal;
+}
+
 .upload-block__item--big {
     width: 410px;
 }

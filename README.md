@@ -21,11 +21,5 @@ Backend: java8 - sparkjava - flyway - postgres - apache db utils
 Frontend: html - js/jQuery - css - microtemplate.js - fancybox - jquery validation
 
 
-Known issues.
 
-* Cannot separate into 2 projects. (Front and back end)
-It can be run as 2 separate projects, but it has issues:
-It will always redirect to default serverside url.
-
-* Index.html is fat and ugly
 
